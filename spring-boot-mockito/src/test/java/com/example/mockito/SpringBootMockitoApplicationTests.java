@@ -1,6 +1,8 @@
 package com.example.mockito;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.stream.Collectors;
@@ -38,4 +40,30 @@ class SpringBootMockitoApplicationTests {
 						.collect(Collectors.toList()));
 		assertEquals(2,service.getUsers().size());
 	}
+	
+	@Test
+	public void getUserByAddressTest()
+	{
+		String address = "Banglore";
+		when(repository.findByAddress(address)).thenReturn( Stream.of(new User(1, "Rohit", 34, "Noida"))
+						.collect(Collectors.toList()));
+		assertEquals(1,service.getUserByAddress(address).size());
+	}
+	
+	@Test
+	public void saveUserTest()
+	{
+		User user = new User(999, "Rajat", 28, "Jalandhar");
+		when(repository.save(user)).thenReturn(user);
+		
+		assertEquals(user,service.addUser(user));
+	}
+	@Test
+	public void deleteUserTest()
+	{
+		User user = new User(999, "Rajat", 28, "Jalandhar");
+		service.deleteUser(user);
+		verify(repository,times(1)).delete(user);
+	}
+	
 }

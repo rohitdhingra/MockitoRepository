@@ -20,6 +20,7 @@ public class UserService {
 
 	public List<User> getUsers() {
 		List<User> users = userRepo.findAll();
+		System.out.println("Getting data from DB:"+users);
 		System.out.println("Getting data from DB"+users);
 		return users;
 	}
